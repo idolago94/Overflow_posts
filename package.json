@@ -8,12 +8,13 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "rix": "export ENVFILE=.env.dev && react-native run-ios --simulator='iPhone X'",
+    "rix": "react-native run-ios --simulator='iPhone X'",
     "podinstall": "cd ios && pod install && cd .."
   },
   "dependencies": {
     "react": "17.0.2",
-    "react-native": "0.67.4"
+    "react-native": "0.67.4",
+    "react-native-config": "^1.4.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
