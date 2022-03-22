@@ -1,3 +1,4 @@
+import Config from 'react-native-config'
 import Rest from '../utils/Rest'
 
 class Api {
@@ -5,7 +6,8 @@ class Api {
         this.defaultParams = {
             order: 'desc',
             sort: 'reputation',
-            site: 'stackoverflow'
+            site: 'stackoverflow',
+            key: Config.API_KEY
         }
     }
     // request structure : (path, method, body, params)
