@@ -29,17 +29,15 @@ const Main: React.FC<{}> = () => {
                 <Text style={s.title}>Overflow Posts</Text>
             </View>
 
-            <View style={s.userDetails}>
-                <TextInput
-                    value={userId}
-                    onChangeText={(text) => setUserId(text.toString())}
-                    style={s.textInput}
-                    clearButtonMode='while-editing'
-                    onSubmitEditing={getUserDetails}
-                />
-
-                {userDetails && <UserDetails {...userDetails} />}
-            </View>
+            <TextInput
+                value={userId}
+                onChangeText={(text) => setUserId(text.toString())}
+                style={s.textInput}
+                clearButtonMode='while-editing'
+                onSubmitEditing={getUserDetails}
+            />
+            
+            {userDetails && <UserDetails {...userDetails} />}
         </View>
     );
 }
@@ -53,12 +51,10 @@ const s = StyleSheet.create({
         fontSize: 60,
         textAlign: 'center'
     },
-    userDetails: {
-        paddingHorizontal: 70
-    },
     textInput: {
         borderBottomColor: 'black',
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
+        marginHorizontal: 70
     }
 })
 

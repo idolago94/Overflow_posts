@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, ImageSourcePropType, FlatList } from 'react-native'
 import { Avatar, Portal, Dialog } from 'react-native-paper';
 import Question, { QuestionProps } from '../Question/Question'
+import { WebView } from 'react-native-webview';
+import GStyles from '../../utils/GStyles';
 
 export type UserDetailsProps = {
     profile_image: ImageSourcePropType,
-    display_name: String,
+    display_name: string,
     reputation: Number,
     questions: Array<QuestionProps>
 };
@@ -19,7 +21,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
     const [modalQuestion, setModalQuestion] = useState<QuestionProps | null>(null)
 
     return (
-        <View>
+        <View style={GStyles.flex}>
             <View style={s.userDataWrap}>
                 <Avatar.Image style={s.avatar} size={100} source={profile_image} />
                 <View>
@@ -27,6 +29,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                     <Text style={s.userDataText}>Reputation: {reputation}</Text>
                 </View>
             </View>
+
             <FlatList
                 keyExtractor={(item) => item.title.toString()}
                 data={questions}
@@ -35,7 +38,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 
             <Portal>
                 <Dialog visible={!!modalQuestion} onDismiss={() => setModalQuestion(null)}>
-                    {modalQuestion ? <Question {...modalQuestion} showWebView /> : <Text>Question not found</Text>}
+                    {modalQuestion ? <Question {...modalQuestion} showWebView={true} /> : <Text>Question not found</Text>}
                 </Dialog>
             </Portal>
         </View>
