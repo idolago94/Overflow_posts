@@ -15,8 +15,9 @@ class Rest {
         return url
     }
 
-    async send(path, method, body, params) {
+    async send(path, method, body, params = {}) {
         const headers = {}
+        params.key = Config.API_KEY
 
         let url = `${this.API_URL}${path ? path : ''}`
         if (params) {

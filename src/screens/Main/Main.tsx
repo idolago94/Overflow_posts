@@ -6,13 +6,18 @@ import { UserDetails } from '../../components';
 import { UserDetailsProps } from '../../components/UserDetails/UserDetails';
 
 const Main: React.FC<{}> = () => {
-    const [userId, setUserId] = React.useState('');
+    const [userId, setUserId] = React.useState('1264804');
     const [userDetails, setUserDetails] = React.useState<UserDetailsProps | null>(null);
 
     const getUserDetails = async () => {
         try {
-            const res = await api.GetUserDetails(userId)
-            setUserDetails({ ...res?.items[0], profile_image: { uri: res?.items[0].profile_image } })
+            const res = await api.GetUserQuestions(userId)
+            // setUserDetails({ ...res?.items[0], profile_image: { uri: res?.items[0].profile_image } })
+            setUserDetails({
+                ...res.items[0].owner,
+                profile_image: { uri: res.items[0].owner.profile_image },
+                questions: res.items
+            })
         } catch (e) {
             console.log(`### -> getUserDetails -> e`, e)
         }
