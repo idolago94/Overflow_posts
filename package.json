@@ -9,9 +9,10 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "rix": "react-native run-ios --simulator='iPhone X'",
-    "podinstall": "cd ios && pod install && cd .."
+    "postinstall": "cd ios && pod install && cd .."
   },
   "dependencies": {
+    "postinstall-postinstall": "^2.1.0",
     "react": "17.0.2",
     "react-native": "0.67.4",
     "react-native-config": "^1.4.5"
