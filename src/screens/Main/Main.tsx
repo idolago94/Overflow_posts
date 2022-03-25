@@ -1,17 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Image, ImageSourcePropType } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import api from '../../utils/Api';
 import GStyles from '../../utils/GStyles';
-
-export type UserProps = {
-    profile_image: ImageSourcePropType,
-    display_name: String,
-    reputation: Number
-};
+import { UserDetails } from '../../components';
+import { UserDetailsProps } from '../../components/UserDetails/UserDetails';
 
 const Main: React.FC<{}> = () => {
     const [userId, setUserId] = React.useState('');
-    const [userDetails, setUserDetails] = React.useState<UserProps | null>(null);
+    const [userDetails, setUserDetails] = React.useState<UserDetailsProps | null>(null);
 
     const getUserDetails = async () => {
         try {
@@ -37,13 +33,7 @@ const Main: React.FC<{}> = () => {
                     onSubmitEditing={getUserDetails}
                 />
 
-                {userDetails && <View style={s.userDataWrap}>
-                    <Image style={s.avatar} source={userDetails.profile_image} />
-                    <View>
-                        <Text style={s.userDataText}>Name: {userDetails.display_name}</Text>
-                        <Text style={s.userDataText}>Reputation: {userDetails.reputation}</Text>
-                    </View>
-                </View>}
+                {userDetails && <UserDetails {...userDetails} />}
             </View>
         </View>
     );
@@ -64,20 +54,6 @@ const s = StyleSheet.create({
     textInput: {
         borderBottomColor: 'black',
         borderBottomWidth: 1
-    },
-    userDataWrap: {
-        flexDirection: 'row',
-        paddingVertical: 40,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    avatar: {
-        height: 100,
-        width: 100,
-        marginRight: 20
-    },
-    userDataText: {
-        marginBottom: 10
     }
 })
 

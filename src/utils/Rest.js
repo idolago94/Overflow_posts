@@ -33,7 +33,6 @@ class Rest {
                 }
             }
 
-            console.log(`### -> Rest -> send -> this.ReqData`, this.ReqData)
             let response = await fetch(this.ReqData.url, this.ReqData.init)
 
             if (response.status == 401) {
