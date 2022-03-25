@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import moment from 'moment'
 
@@ -11,7 +11,9 @@ export type QuestionProps = {
     score: Number,
     tags: Array<String>,
     title: String,
-    view_count: Number
+    view_count: Number,
+    onPress: Function,
+    showWebView: Boolean
 }
 
 const Question: React.FC<QuestionProps> = ({
@@ -22,17 +24,26 @@ const Question: React.FC<QuestionProps> = ({
     score,
     tags,
     title,
-    view_count
+    view_count,
+    onPress,
+    showWebView
 }) => {
 
-    return (
+    const QuestionContent = () => (<React.Fragment>
+        {showWebView && <Text>show web view</Text>}
+        <Card>
+            <Card.Title title={title} subtitle={<Text style={{ display: 'none' }}>Created at: {moment(creation_date).calendar()}</Text>} />
+        </Card>
+    </React.Fragment>)
+
+    return onPress ?
+        <TouchableOpacity onPress={() => onPress && onPress()}>
+            <QuestionContent />
+        </TouchableOpacity> :
         <View>
-            <Card>
-                <Card.Title title={title} subtitle={<Text style={{display: 'none'}}>Created at: {moment(creation_date).calendar()}</Text>} />
-                <Card.Content>{Array.apply(null, Array(score)).map(() => <Avatar.Icon icon="star" />)}</Card.Content>
-            </Card>
+            <QuestionContent />
         </View>
-    )
+
 }
 
 export default Question

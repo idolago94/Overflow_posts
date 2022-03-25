@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, ImageSourcePropType, FlatList } from 'react-native'
-import { Avatar } from 'react-native-paper';
+import { Avatar, Portal, Dialog } from 'react-native-paper';
 import Question, { QuestionProps } from '../Question/Question'
 
 export type UserDetailsProps = {
@@ -16,6 +16,8 @@ const UserDetails: React.FC<UserDetailsProps> = ({
     reputation,
     questions
 }) => {
+    const [modalQuestion, setModalQuestion] = useState<QuestionProps | null>(null)
+
     return (
         <View>
             <View style={s.userDataWrap}>
@@ -28,8 +30,14 @@ const UserDetails: React.FC<UserDetailsProps> = ({
             <FlatList
                 keyExtractor={(item) => item.title.toString()}
                 data={questions}
-                renderItem={({ item }) => <Question {...item} />}
+                renderItem={({ item }) => <Question {...item} onPress={() => setModalQuestion(item)} />}
             />
+
+            <Portal>
+                <Dialog visible={!!modalQuestion} onDismiss={() => setModalQuestion(null)}>
+                    {modalQuestion ? <Question {...modalQuestion} showWebView /> : <Text>Question not found</Text>}
+                </Dialog>
+            </Portal>
         </View>
     )
 }
