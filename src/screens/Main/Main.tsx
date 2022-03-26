@@ -9,18 +9,21 @@ import { Text } from 'react-native-paper'
 const Main: React.FC<{}> = () => {
     const [userId, setUserId] = React.useState('1264804');
     const [userDetails, setUserDetails] = React.useState<UserDetailsProps | null>(null);
+    const [errorMsg, setErrorMsg] = React.useState(null);
 
     const getUserDetails = async () => {
         try {
             const res = await api.GetUserQuestions(userId)
-            // setUserDetails({ ...res?.items[0], profile_image: { uri: res?.items[0].profile_image } })
             setUserDetails({
                 ...res.items[0].owner,
                 profile_image: { uri: res.items[0].owner.profile_image },
                 questions: res.items
             })
-        } catch (e) {
+            setErrorMsg(null);
+        } catch (e: any) {
             console.log(`### -> getUserDetails -> e`, e)
+            setErrorMsg(e.error_message);
+            setUserDetails(null);
         }
     }
 
@@ -38,6 +41,7 @@ const Main: React.FC<{}> = () => {
                 onSubmitEditing={getUserDetails}
             />
 
+            {errorMsg && <Text style={s.errorMsg}>{errorMsg}</Text>}
             {userDetails && <UserDetails {...userDetails} />}
         </View>
     );
@@ -57,6 +61,11 @@ const s = StyleSheet.create({
         borderBottomWidth: 1,
         marginHorizontal: 70,
         padding: 0
+    },
+    errorMsg: {
+        color: 'red',
+        textAlign: 'center',
+        paddingTop: 40
     }
 })
 
