@@ -5,8 +5,12 @@ import { Main } from '.';
 import { Provider as PaperProvider, DefaultTheme, Switch, Avatar } from 'react-native-paper';
 import { THEME } from '../utils/Enums';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import SplashScreen from 'react-native-splash-screen'
 
 const MainRoot: React.FC<{}> = () => {
+    React.useEffect(() => {
+        setTimeout(SplashScreen.hide, 1000)
+    },[])
     const [isDarkMode, setIsDarkMode] = React.useState(Appearance.getColorScheme() != 'light');
 
     const modeTheme = isDarkMode ? THEME.DARK : THEME.LIGHT

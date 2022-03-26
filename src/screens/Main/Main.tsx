@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import api from '../../utils/Api';
 import GStyles from '../../utils/GStyles';
 import { UserDetails } from '../../components';
 import { UserDetailsProps } from '../../components/UserDetails/UserDetails';
 import { Text, TextInput } from 'react-native-paper'
+import Images from '../../utils/Images';
 
 const Main: React.FC<{}> = () => {
-    const [userId, setUserId] = React.useState('1264804');
+    const [userId, setUserId] = React.useState('');
     const [userDetails, setUserDetails] = React.useState<UserDetailsProps | null>(null);
     const [errorMsg, setErrorMsg] = React.useState(null);
 
@@ -30,12 +31,13 @@ const Main: React.FC<{}> = () => {
     return (
         <View style={GStyles.flex}>
             <View style={s.titleWrap}>
-                <Text style={s.title}>Overflow Posts</Text>
+                <Image resizeMode='contain' style={s.appImage} source={Images.appLogo} />
             </View>
 
             <TextInput
                 value={userId}
                 onChangeText={(text) => setUserId(text.toString())}
+                placeholder='Enter user id'
                 style={s.textInput}
                 clearButtonMode='while-editing'
                 onSubmitEditing={getUserDetails}
@@ -48,8 +50,8 @@ const Main: React.FC<{}> = () => {
 }
 
 const s = StyleSheet.create({
+    appImage: { width: GStyles.SCREEN_WIDTH * .8, height: 140 },
     titleWrap: {
-        paddingVertical: 20,
         alignItems: 'center'
     },
     title: {
