@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import api from '../../utils/Api';
 import GStyles from '../../utils/GStyles';
 import { UserDetails } from '../../components';
 import { UserDetailsProps } from '../../components/UserDetails/UserDetails';
-import { Text } from 'react-native-paper'
+import { Text, TextInput } from 'react-native-paper'
 
 const Main: React.FC<{}> = () => {
     const [userId, setUserId] = React.useState('1264804');
