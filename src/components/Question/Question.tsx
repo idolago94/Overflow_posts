@@ -34,7 +34,7 @@ const Question: React.FC<QuestionProps> = ({
     const QuestionContent = () => (<React.Fragment>
         {showWebView && <React.Suspense fallback={<View />}>
             <View style={s.webView}>
-                <WebView source={{ uri: link }} />
+                <WebView startInLoadingState={true} source={{ uri: link }} />
             </View>
         </React.Suspense>}
         <Card>
