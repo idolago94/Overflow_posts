@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, ImageSourcePropType, FlatList } from 'react-native'
-import { Avatar, Portal, Dialog, Text, withTheme, DataTable } from 'react-native-paper';
+import React, { useState, useRef } from 'react'
+import { View, StyleSheet, ImageSourcePropType, FlatList, Platform } from 'react-native'
+import { Avatar, Text, withTheme, DataTable, Portal, Dialog } from 'react-native-paper';
 import Question, { QuestionProps } from '../Question/Question'
 import GStyles from '../../utils/GStyles';
 import RNPickerSelect from 'react-native-picker-select';
 import sortBy from 'lodash/sortBy';
 import { PaperThemeProp } from '../../utils/PropTypes';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 export type UserDetailsProps = {
     profile_image: ImageSourcePropType,
@@ -27,8 +28,15 @@ const UserDetails: React.FC<UserDetailsProps & PaperThemeProp> = ({
     questions,
     theme
 }) => {
+    const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     const [modalQuestion, setModalQuestion] = useState<QuestionProps | null>(null)
     const [sortOption, setSortOption] = useState('creation_date')
+
+    const snapPoints = React.useMemo(() => ['25%', '75%'], []);
+
+    const handlePresentModalPress = React.useCallback(() => {
+        bottomSheetModalRef.current?.present();
+    }, []);
 
     const ListHeader = () => (
         <DataTable.Row>
@@ -67,14 +75,25 @@ const UserDetails: React.FC<UserDetailsProps & PaperThemeProp> = ({
             <FlatList
                 keyExtractor={(item) => item.title.toString()}
                 data={sortBy(questions, sortOption)}
-                renderItem={({ item }) => <Question {...item} onPress={() => setModalQuestion(item)} />}
+                renderItem={({ item }) => <Question {...item} onPress={() => {
+                    setModalQuestion(item)
+                    handlePresentModalPress()
+                }} />}
             />
 
-            <Portal>
+            {Platform.OS == 'android' && <Portal>
                 <Dialog visible={!!modalQuestion} onDismiss={() => setModalQuestion(null)}>
                     {modalQuestion ? <Question {...modalQuestion} showWebView={true} /> : <Text>Question not found</Text>}
                 </Dialog>
-            </Portal>
+            </Portal>}
+
+            {Platform.OS == 'ios' && <BottomSheetModal // cannot scroll inside web view in android
+                ref={bottomSheetModalRef}
+                index={1}
+                snapPoints={snapPoints}
+            >
+                {modalQuestion ? <Question {...modalQuestion} showWebView={true} /> : <Text>Question not found</Text>}
+            </BottomSheetModal>}
         </View>
     )
 }

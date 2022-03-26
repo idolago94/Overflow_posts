@@ -1,5 +1,5 @@
 import React, { lazy } from 'react'
-import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
+import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import { Card, Chip, Text } from 'react-native-paper';
 import moment from 'moment'
 import GStyles from '../../utils/GStyles';
@@ -32,17 +32,17 @@ const Question: React.FC<QuestionProps> = ({
 }) => {
 
     const QuestionContent = () => (<React.Fragment>
-        {showWebView && <React.Suspense fallback={<View />}>
-            <View style={s.webView}>
-                <WebView startInLoadingState={true} source={{ uri: link }} />
-            </View>
-        </React.Suspense>}
         <Card>
             <Card.Title title={title} subtitle={<Text>Created at: {moment(creation_date).calendar()} | Views: {view_count} | Answers: {answer_count}</Text>} />
             <Card.Content style={s.tagsWrap}>
                 {tags.map(t => <Chip style={s.tag} textStyle={s.tagText} key={t}>{t}</Chip>)}
             </Card.Content>
         </Card>
+        {showWebView && <React.Suspense fallback={<View />}>
+            <View style={s.webView}>
+                <WebView startInLoadingState={true} source={{ uri: link }} />
+            </View>
+        </React.Suspense>}
     </React.Fragment>)
 
     return onPress ?

@@ -6,11 +6,13 @@ import { Provider as PaperProvider, DefaultTheme, Switch, Avatar } from 'react-n
 import { THEME } from '../utils/Enums';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import SplashScreen from 'react-native-splash-screen'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 const MainRoot: React.FC<{}> = () => {
     React.useEffect(() => {
         setTimeout(SplashScreen.hide, 1000)
-    },[])
+    }, [])
     const [isDarkMode, setIsDarkMode] = React.useState(Appearance.getColorScheme() != 'light');
 
     const modeTheme = isDarkMode ? THEME.DARK : THEME.LIGHT
@@ -31,19 +33,21 @@ const MainRoot: React.FC<{}> = () => {
         </View>
     )
 
-    return (
+    return (<GestureHandlerRootView style={GStyles.flex}>
         <PaperProvider
             theme={theme}
             settings={{
                 icon: props => <AwesomeIcon {...props} />,
             }}
         >
-            <SafeAreaView style={[GStyles.flex, { backgroundColor: modeTheme.background }]}>
-                <ThemeModeToggle />
-                <Main />
-            </SafeAreaView>
+            <BottomSheetModalProvider>
+                <SafeAreaView style={[GStyles.flex, { backgroundColor: modeTheme.background }]}>
+                    <ThemeModeToggle />
+                    <Main />
+                </SafeAreaView>
+            </BottomSheetModalProvider>
         </PaperProvider>
-    );
+        </GestureHandlerRootView>);
 }
 
 const s = StyleSheet.create({

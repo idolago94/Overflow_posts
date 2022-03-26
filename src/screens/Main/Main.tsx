@@ -50,7 +50,7 @@ const Main: React.FC<{}> = () => {
 }
 
 const s = StyleSheet.create({
-    appImage: { width: GStyles.SCREEN_WIDTH * .8, height: 140 },
+    appImage: { width: GStyles.SCREEN_WIDTH * .8, height: 110 },
     titleWrap: {
         alignItems: 'center'
     },
