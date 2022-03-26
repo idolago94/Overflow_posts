@@ -1,10 +1,10 @@
 import Config from 'react-native-config'
-import Rest from '../utils/Rest'
+import Rest from './Rest'
 
 class Api {
     constructor() {}
     // request structure : (path, method, body, params)
-    GetUserDetails(id) {
+    GetUserDetails(id: string) {
         const queryParams = {
             order: 'desc',
             sort: 'reputation',
@@ -12,7 +12,7 @@ class Api {
         }
         return Rest.send(`users/${id}`, 'GET', null, queryParams)
     }
-    GetUserQuestions(id) {
+    GetUserQuestions(id: string) {
         const queryParams = {
             order: 'desc',
             sort: 'activity',

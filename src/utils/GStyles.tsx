@@ -111,30 +111,6 @@ const LAYOUT = {
     noMargin: {
         margin: 0,
     },
-    basicTxt_14_Reg_black: {
-        fontSize: 14,
-        lineHeight: 16,
-        fontFamily: FONTS.HeeboRegular,
-        color: '$black_80',
-        writingDirection: 'rtl',
-        textAlign: 'left',
-    },
-    rtlFix: {
-        writingDirection: 'ltr',
-        textAlign: 'right'
-    },
-    fontHeeboRegular: {
-        fontFamily: FONTS.HeeboRegular,
-    },
-    fontHeeboMedium: {
-        fontFamily: FONTS.HeeboMedium,
-    },
-    fontHeeboBold: {
-        fontFamily: FONTS.HeeboBold,
-    },
-    fontHeeboBlack: {
-        fontFamily: FONTS.HeeboBlack,
-    },
     srOnly: {
         color: '#900',
         position: 'absolute',

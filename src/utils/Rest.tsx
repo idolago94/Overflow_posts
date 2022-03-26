@@ -1,12 +1,15 @@
 import Config from 'react-native-config'
 
 class Rest {
+    API_URL: string;
+    ReqData: { [key: string]: any };
+
     constructor() {
         this.API_URL = Config.API_URL
         this.ReqData = {}
     }
 
-    withQuery(url, params) {
+    withQuery(url: string, params: { [key: string]: any }) {
         let query = Object.keys(params)
             .filter(k => !!params[k])
             .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
@@ -15,7 +18,12 @@ class Rest {
         return url
     }
 
-    async send(path, method, body, params = {}) {
+    async send(
+        path: string,
+        method: string,
+        body: { [key: string]: any } | null,
+        params: { [key: string]: any } = {}
+    ) {
         const headers = {}
         params.key = Config.API_KEY
 
@@ -34,7 +42,7 @@ class Rest {
                 }
             }
 
-            let response = await fetch(this.ReqData.url, this.ReqData.init)
+            let response: any = await fetch(this.ReqData.url, this.ReqData.init)
 
             if (response.status == 401) {
                 return Promise.reject(await response.json())
@@ -46,12 +54,7 @@ class Rest {
                 return Promise.reject(await response.json())
             }
             if (response.status == 404) {
-                try {
-                    let res = await response.json()
-                    return Promise.reject({ code: 404, error_message: res.error_message, url: response.url })
-                } catch (e) {
-                    return Promise.reject({ code: 404, error_message: i18n.t('ec_500'), url: response.url })
-                }
+                return Promise.reject(await response.json())
             }
             if (response.status == 500) {
                 return Promise.reject(await response.json())
