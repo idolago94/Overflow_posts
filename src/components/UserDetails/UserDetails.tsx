@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, ImageSourcePropType, FlatList } from 'react-native'
-import { Avatar, Portal, Dialog, Text, Chip, withTheme } from 'react-native-paper';
+import { Avatar, Portal, Dialog, Text, withTheme, DataTable } from 'react-native-paper';
 import Question, { QuestionProps } from '../Question/Question'
 import GStyles from '../../utils/GStyles';
 import RNPickerSelect from 'react-native-picker-select';
@@ -31,25 +31,26 @@ const UserDetails: React.FC<UserDetailsProps & PaperThemeProp> = ({
     const [sortOption, setSortOption] = useState('creation_date')
 
     const ListHeader = () => (
-        <Chip style={s.listHeaderContainer}>
-            <View style={s.listHeaderContainer}>
+        <DataTable.Row>
+            <DataTable.Cell>
                 <Text>Questions found: {questions.length}</Text>
-                <View style={s.sortTypeHeader}>
-                    <Text>Sort By: </Text>
-                    <RNPickerSelect
-                        useNativeAndroidPickerStyle={false}
-                        onValueChange={(value) => setSortOption(value)}
-                        items={sortOptions}
-                        value={sortOption}
-                        style={{
-                            inputAndroid: { ...s.androidPicker, color: theme.colors.text },
-                            inputIOS: { color: theme.colors.text }
-                        }}
-                        fixAndroidTouchableBug
-                    />
-                </View>
+            </DataTable.Cell>
+            <View style={s.sortTypeHeader}>
+                <Text>Sort By: </Text>
+                <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
+                    onValueChange={(value) => setSortOption(value)}
+                    placeholder={{}}
+                    items={sortOptions}
+                    value={sortOption}
+                    style={{
+                        inputAndroid: { color: theme.colors.text },
+                        inputIOS: { ...s.iosPicker, color: theme.colors.text },
+                    }}
+                    fixAndroidTouchableBug
+                />
             </View>
-        </Chip>
+        </DataTable.Row>
     )
 
     return (
@@ -79,7 +80,7 @@ const UserDetails: React.FC<UserDetailsProps & PaperThemeProp> = ({
 }
 
 const s = StyleSheet.create({
-    androidPicker: { padding: 0 },
+    iosPicker: { height: '100%' },
     title: {
         fontSize: 60,
         textAlign: 'center'
@@ -101,15 +102,12 @@ const s = StyleSheet.create({
     },
     listHeaderContainer: {
         padding: 2,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
         borderRadius: 0,
-        margin: 0,
+        margin: 0
     },
     sortTypeHeader: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'center'
     }
 })
 

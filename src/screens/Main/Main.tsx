@@ -49,11 +49,11 @@ const Main: React.FC<{}> = () => {
 
 const s = StyleSheet.create({
     titleWrap: {
-        paddingVertical: 10,
+        paddingVertical: 20,
         alignItems: 'center'
     },
     title: {
-        fontSize: 60,
+        fontSize: 45,
         textAlign: 'center'
     },
     textInput: {
