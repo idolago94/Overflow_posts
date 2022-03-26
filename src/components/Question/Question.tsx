@@ -1,6 +1,6 @@
 import React, { lazy } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
-import { Card, Chip } from 'react-native-paper';
+import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
+import { Card, Chip, Text } from 'react-native-paper';
 import moment from 'moment'
 import GStyles from '../../utils/GStyles';
 const WebView = React.lazy(() => import('react-native-webview'));
@@ -38,7 +38,7 @@ const Question: React.FC<QuestionProps> = ({
             </View>
         </React.Suspense>}
         <Card>
-            <Card.Title title={title} subtitle={<Text>Created at: {moment(creation_date).calendar()}</Text>} />
+            <Card.Title title={title} subtitle={<Text>Created at: {moment(creation_date).calendar()} | Views: {view_count} | Answers: {answer_count}</Text>} />
             <Card.Content style={s.tagsWrap}>
                 {tags.map(t => <Chip style={s.tag} textStyle={s.tagText} key={t}>{t}</Chip>)}
             </Card.Content>

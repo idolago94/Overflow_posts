@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
 import api from '../../utils/Api';
 import GStyles from '../../utils/GStyles';
 import { UserDetails } from '../../components';
 import { UserDetailsProps } from '../../components/UserDetails/UserDetails';
+import { Text } from 'react-native-paper'
 
 const Main: React.FC<{}> = () => {
     const [userId, setUserId] = React.useState('1264804');
@@ -36,7 +37,7 @@ const Main: React.FC<{}> = () => {
                 clearButtonMode='while-editing'
                 onSubmitEditing={getUserDetails}
             />
-            
+
             {userDetails && <UserDetails {...userDetails} />}
         </View>
     );
@@ -44,7 +45,7 @@ const Main: React.FC<{}> = () => {
 
 const s = StyleSheet.create({
     titleWrap: {
-        paddingVertical: 40,
+        paddingVertical: 10,
         alignItems: 'center'
     },
     title: {
@@ -54,7 +55,8 @@ const s = StyleSheet.create({
     textInput: {
         borderBottomColor: 'black',
         borderBottomWidth: 1,
-        marginHorizontal: 70
+        marginHorizontal: 70,
+        padding: 0
     }
 })
 

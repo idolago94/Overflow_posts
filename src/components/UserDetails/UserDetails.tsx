@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, ImageSourcePropType, FlatList } from 'react-native'
-import { Avatar, Portal, Dialog } from 'react-native-paper';
+import { View, StyleSheet, ImageSourcePropType, FlatList } from 'react-native'
+import { Avatar, Portal, Dialog, Text } from 'react-native-paper';
 import Question, { QuestionProps } from '../Question/Question'
-import { WebView } from 'react-native-webview';
 import GStyles from '../../utils/GStyles';
+import RNPickerSelect from 'react-native-picker-select';
+import sortBy from 'lodash/sortBy';
 
 export type UserDetailsProps = {
     profile_image: ImageSourcePropType,
@@ -12,6 +13,12 @@ export type UserDetailsProps = {
     questions: Array<QuestionProps>
 };
 
+const sortOptions = [
+    { label: 'Date', value: 'creation_date' },
+    { label: 'Answers', value: 'answer_count' },
+    { label: 'Views', value: 'view_count' },
+]
+
 const UserDetails: React.FC<UserDetailsProps> = ({
     profile_image,
     display_name,
@@ -19,6 +26,26 @@ const UserDetails: React.FC<UserDetailsProps> = ({
     questions
 }) => {
     const [modalQuestion, setModalQuestion] = useState<QuestionProps | null>(null)
+    const [sortOption, setSortOption] = useState('creation_date')
+
+    const ListHeader = () => (
+        <View style={s.listHeaderContainer}>
+            <Text>Questions found: {questions.length}</Text>
+            <View style={s.sortTypeHeader}>
+                <Text>Sort By: </Text>
+                <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
+                    onValueChange={(value) => setSortOption(value)}
+                    items={sortOptions}
+                    value={sortOption}
+                    style={{
+                        inputAndroid: s.androidPicker
+                    }}
+                    fixAndroidTouchableBug
+                />
+            </View>
+        </View>
+    )
 
     return (
         <View style={GStyles.flex}>
@@ -30,9 +57,10 @@ const UserDetails: React.FC<UserDetailsProps> = ({
                 </View>
             </View>
 
+            <ListHeader />
             <FlatList
                 keyExtractor={(item) => item.title.toString()}
-                data={questions}
+                data={sortBy(questions, sortOption)}
                 renderItem={({ item }) => <Question {...item} onPress={() => setModalQuestion(item)} />}
             />
 
@@ -46,6 +74,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({
 }
 
 const s = StyleSheet.create({
+    androidPicker: { padding: 0 },
     title: {
         fontSize: 60,
         textAlign: 'center'
@@ -55,7 +84,7 @@ const s = StyleSheet.create({
     },
     userDataWrap: {
         flexDirection: 'row',
-        paddingVertical: 40,
+        paddingVertical: 20,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -64,6 +93,18 @@ const s = StyleSheet.create({
     },
     userDataText: {
         marginBottom: 10
+    },
+    listHeaderContainer: {
+        padding: 2,
+        paddingHorizontal: 7,
+        backgroundColor: '#e6e3e3',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    sortTypeHeader: {
+        flexDirection: 'row',
+        alignItems: 'center'
     }
 })
 
