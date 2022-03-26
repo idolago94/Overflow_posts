@@ -7,10 +7,10 @@ export const THEME = {
         primary: '#575757'
     },
     DARK: {
-        background: 'black',
+        background: '#19191a',
         text: 'white',
         disabled: '#adadad',
-        surface: 'black',
+        surface: '#19191a',
         primary: 'white'
     }
 }

@@ -1,9 +1,10 @@
 import React from 'react';
-import { SafeAreaView, Appearance, StyleSheet } from 'react-native';
+import { SafeAreaView, Appearance, StyleSheet, View } from 'react-native';
 import GStyles from '../utils/GStyles';
 import { Main } from '.';
-import { Provider as PaperProvider, DefaultTheme, Switch } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme, Switch, Avatar } from 'react-native-paper';
 import { THEME } from '../utils/Enums';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const MainRoot: React.FC<{}> = () => {
     const [isDarkMode, setIsDarkMode] = React.useState(Appearance.getColorScheme() != 'light');
@@ -18,10 +19,23 @@ const MainRoot: React.FC<{}> = () => {
         }
     };
 
+    const ThemeModeToggle = () => (
+        <View style={s.themeModeToggle}>
+            <Avatar.Icon icon="moon-o" size={20} />
+            <Switch style={s.themeModeToggle} value={!isDarkMode} onValueChange={() => setIsDarkMode(!isDarkMode)} />
+            <Avatar.Icon icon="sun-o" size={20} />
+        </View>
+    )
+
     return (
-        <PaperProvider theme={theme}>
+        <PaperProvider
+            theme={theme}
+            settings={{
+                icon: props => <AwesomeIcon {...props} />,
+            }}
+        >
             <SafeAreaView style={[GStyles.flex, { backgroundColor: modeTheme.background }]}>
-                <Switch style={s.themeModeToggle} value={!isDarkMode} onValueChange={() => setIsDarkMode(!isDarkMode)} />
+                <ThemeModeToggle />
                 <Main />
             </SafeAreaView>
         </PaperProvider>
@@ -30,7 +44,9 @@ const MainRoot: React.FC<{}> = () => {
 
 const s = StyleSheet.create({
     themeModeToggle: {
-        margin: 5
+        margin: 5,
+        flexDirection: 'row',
+        alignItems: 'center'
     }
 })
 
